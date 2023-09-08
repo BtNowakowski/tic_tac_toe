@@ -5,7 +5,6 @@ This is a simple Tic Tac Toe game written in Python. It is a two player game, wh
 
 ## Screenshots
 <img width="219" alt="obraz" src="https://github.com/BtNowakowski/tic_tac_toe/assets/107316656/5cd661cd-6765-4ba0-83c2-5d1eaf911e22">   
-
-
+</br>
 <img width="197" alt="obraz" src="https://github.com/BtNowakowski/tic_tac_toe/assets/107316656/25460f3b-7fa6-4982-bccb-5938accc6489">
 
