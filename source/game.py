@@ -45,6 +45,8 @@ class Game:
             try:
                 choice = int(input("Enter a position (1-9): "))
             except ValueError:
+                clear_screen()
+                draw_board(self.board)
                 print("Invalid choice. Try again!")
                 continue
             except KeyboardInterrupt:
@@ -53,6 +55,10 @@ class Game:
 
             if choice in self.free_spots:
                 break
+            else:
+                clear_screen()
+                draw_board(self.board)
+                print("Position taken, Try another one!")
 
         self.take_position(choice)
 
