@@ -1,48 +1,46 @@
 import time
-from utils import draw_board, clear_screen, whose_turn, check_winner
-from random import randint as random_int
+from utils import draw_board, clear_screen, check_winner
+from random import choice as random_choice
+
+PLAYER = "X"
+COMPUTER = "O"
+EMPTY = "_"
 
 
 class Game:
     def __init__(self):
         self.board = [
-            ["_", "_", "_"],
-            ["_", "_", "_"],
-            ["_", "_", "_"],
+            [EMPTY] * 3,
+            [EMPTY] * 3,
+            [EMPTY] * 3,
         ]
         self.player = ""
+        self.free_spots = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-    def position_available(self, choice):
-        if int(choice) <= 3:
-            field_chosen = self.board[0][int(choice) - 1]
-            if field_chosen == "_":
-                self.board[0][int(choice) - 1] = self.player
-                return True
-            print("Invalid choice. Try again!")
-        elif int(choice) <= 6:
-            field_chosen = self.board[1][int(choice) - 4]
-            if field_chosen == "_":
-                self.board[1][int(choice) - 4] = self.player
-                return True
-            print("Invalid choice. Try again!")
-        elif int(choice) <= 9:
-            field_chosen = self.board[2][int(choice) - 7]
-            if field_chosen == "_":
-                self.board[2][int(choice) - 7] = self.player
-                return True
-            print("Invalid choice. Try again!")
-        return False
+    def whose_turn(self, turn):
+        if turn % 2 == 0:
+            return PLAYER
+        return COMPUTER
+
+    def take_position(self, choice):
+        if int(choice) >= 1 and int(choice) <= 3:
+            self.board[0][int(choice) - 1] = self.player
+            self.free_spots.remove(int(choice))
+        elif int(choice) >= 4 and int(choice) <= 6:
+            self.board[1][int(choice) - 4] = self.player
+            self.free_spots.remove(int(choice))
+        elif int(choice) >= 7 and int(choice) <= 9:
+            self.board[2][int(choice) - 7] = self.player
+            self.free_spots.remove(int(choice))
 
     def computer_move(self):
-        if "_" in self.board[0] or "_" in self.board[1] or "_" in self.board[2]:
-            position = random_int(1, 9)
+        if self.free_spots:
+            self.take_position(random_choice(self.free_spots))
+        else:
+            print("Thanks for playing!")
+            exit(0)
 
-            if self.position_available(position):
-                print(f"Computer taken place--> {position}")
-            else:
-                self.computer_move()
-
-    def ask_verify_choice(self):
+    def player_move(self):
         while True:
             try:
                 choice = int(input("Enter a position (1-9): "))
@@ -53,21 +51,23 @@ class Game:
                 print("\nBye!")
                 exit(0)
 
-            if self.position_available(choice):
+            if choice in self.free_spots:
                 break
+
+        self.take_position(choice)
 
     def main_loop(self):
         for i in range(9):
+            # board operations
             clear_screen()
-
             draw_board(self.board)
 
-            self.player = whose_turn(i)
+            self.player = self.whose_turn(i)
 
-            if self.player == "O":
+            if self.player == COMPUTER:
                 self.computer_move()
             else:
-                self.ask_verify_choice()
+                self.player_move()
 
             did_win, self.board = check_winner(self.board)
 

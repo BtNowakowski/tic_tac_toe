@@ -12,12 +12,6 @@ def draw_board(board):
 clear_screen = lambda: os.system("cls" if os.name == "nt" else "clear")
 
 
-def whose_turn(turn):
-    if turn % 2 == 0:
-        return "X"
-    return "O"
-
-
 def check_winner(board) -> tuple[bool, list[list[str]]]:
     for i in range(len(board)):
         if (
@@ -34,9 +28,9 @@ def check_winner(board) -> tuple[bool, list[list[str]]]:
             and board[i][1] == board[i][2]
             and board[i][0] != "_"
         ):
-            board[i][0] = "-"
-            board[i][1] = "-"
-            board[i][2] = "-"
+            board[i][0] = "*"
+            board[i][1] = "*"
+            board[i][2] = "*"
             return (True, board)
     if board[0][0] == board[1][1] and board[1][1] == board[2][2] and board[0][0] != "_":
         board[0][0] = "\\"
