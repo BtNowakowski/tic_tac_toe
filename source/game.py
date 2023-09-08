@@ -69,11 +69,11 @@ class Game:
             else:
                 self.player_move()
 
-            did_win, self.board = check_winner(self.board)
-
-            if did_win:
-                clear_screen()
-                draw_board(self.board)
-                print(f"Player {self.player} wins!")
-                time.sleep(2)
-                break
+            if i >= 5:
+                did_win, self.board = check_winner(self.board)
+                if did_win:
+                    clear_screen()
+                    draw_board(self.board)
+                    print(f"Player {self.player} wins!")
+                    time.sleep(2)
+                    break
